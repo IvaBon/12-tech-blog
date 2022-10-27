@@ -4,7 +4,8 @@
   "description": "best ecom site",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +18,17 @@
     "express-session": "^1.17.3",
     "mysql2": "^2.3.3",
     "sequelize": "^6.25.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvaBon/12-tech-blog.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/IvaBon/12-tech-blog/issues"
+  },
+  "homepage": "https://github.com/IvaBon/12-tech-blog#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
