@@ -4,7 +4,7 @@ const withAuth=require('../../utils/auth')
 
 
 // create
-router.post('/',withAuth, async(req,res)=>{
+router.post('/', async(req,res)=>{
     try{
         const postData=await Post.create({
             title: req.body.title,

@@ -1,5 +1,7 @@
 const router=require('express').Router();
-const Post=require('../models/post')
+const User = require('../models/user');
+const Post=require('../models/post');
+const { sync } = require('../models/user');
 
 router.get('/',async(req,res)=>{
     try{
@@ -27,9 +29,26 @@ router.get('/login', (req, res) => {
 
 
 
-router.get('/dashboard',(req,res)=>{
-    res.render('dashboard')
+router.get('/dashboard', async(req,res)=>{
+    try{
+        const data=await Post.findAll({
+            // include:[{model:User}],
+            where:{
+                user_id:req.session.id
+            },
+        });
+        const posts= data.map((post)=>post.get({plain:true}));
+        res.render('dashboard', {posts, loggedIn:req.session.loggedIn})
+    } catch(err){
+        res.status(500).json(err);
+    }
+    
 })
+
+router.get('/new-post', async(req,res)=>{
+    res.render('new-post')
+})
+
 
 
 
