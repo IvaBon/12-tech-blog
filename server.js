@@ -4,18 +4,22 @@ const sequelize = require('./config/connect');
 const session = require('express-session');
 const engine = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const path=require('path')
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use(routes);
+app.engine('handlebars', engine.engine({ defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 const sesh = {
   secret: 'super secret sauce',
-  cookie: {maxAge: 60000},
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite:'Strict',
+  },
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -23,17 +27,20 @@ const sesh = {
   })
 };
 
+app.use(express.static(path.join(__dirname,'public')))
 app.use(session(sesh));
-app.engine('handlebars', engine.engine({ defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(routes)
+
 // app.set('views', './views');
 
 // sync sequelize models to the database, then turn on the server
-async function start(){
-  await sequelize.sync({alter: true});
-  app.listen(PORT, () => {
-    console.log(`App listening on port http://localhost:${PORT} !`);
-  });
-}
-start();
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log('Now listening'));
+});
+
+
+
 

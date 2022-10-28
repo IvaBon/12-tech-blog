@@ -7,21 +7,30 @@ router.get('/',async(req,res)=>{
         const posts=postData.map((post)=>post.get({plain: true}))
         res.render('index',{
             posts,
-            // loggedIn: req.session.loggedIn || false
+            loggedIn: req.session.loggedIn
         })
     } catch(err){
-        if(err) throw(err)
+        res.status(500).json(err);
     }
     
 })
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+      }
+    res.render('login')
+   
 });
+
+
+
 
 router.get('/dashboard',(req,res)=>{
     res.render('dashboard')
 })
+
 
 
 
