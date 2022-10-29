@@ -5,7 +5,9 @@ const { sync } = require('../models/user');
 
 router.get('/',async(req,res)=>{
     try{
-        const postData=await Post.findAll({})
+        const postData=await Post.findAll({
+            // include:[{model:Comment}]
+        })
         const posts=postData.map((post)=>post.get({plain: true}))
         res.render('home',{
             posts,
@@ -32,9 +34,10 @@ router.get('/login', (req, res) => {
 router.get('/dashboard', async(req,res)=>{
     try{
         const data=await Post.findAll({
-            // include:[{model:User}],
+            
             where:{
-                user_id:req.session.id
+                user_id: req.session.id
+                
             },
         });
         const posts= data.map((post)=>post.get({plain:true}));
@@ -48,6 +51,7 @@ router.get('/dashboard', async(req,res)=>{
 router.get('/new-post', async(req,res)=>{
     res.render('new-post')
 })
+
 
 
 

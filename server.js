@@ -6,11 +6,11 @@ const engine = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const path=require('path')
 
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.engine('handlebars', engine.engine({ defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+
 
 const sesh = {
   secret: 'super secret sauce',
@@ -26,6 +26,9 @@ const sesh = {
     db: sequelize
   })
 };
+
+app.engine('handlebars', engine.engine({ defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname,'public')))
 app.use(session(sesh));

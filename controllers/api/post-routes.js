@@ -22,7 +22,7 @@ router.get('/:id', async(req,res)=>{
     try{
         const getPost=await Post.findByPk(req.params.id,{});
         const post=getPost.get({plain: true});
-        // res.render fill in later
+        res.render('single-post',{post})
     }catch(err){
         res.status(500).json(err);
     }
