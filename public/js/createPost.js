@@ -25,3 +25,4 @@ const postFormHandler = async (event) => {
 document
     .querySelector(".post-form")
     .addEventListener('submit', postFormHandler)
+    
