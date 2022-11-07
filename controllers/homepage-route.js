@@ -34,12 +34,12 @@ router.get('/login', (req, res) => {
 router.get('/dashboard', async(req,res)=>{
     try{
         const data=await Post.findAll({
-            
             where:{
-                user_id: req.session.id
+                user_id: req.session.user_id
                 
             },
         });
+        
         const posts= data.map((post)=>post.get({plain:true}));
         res.render('dashboard', {posts, loggedIn:true})
     } catch(err){
